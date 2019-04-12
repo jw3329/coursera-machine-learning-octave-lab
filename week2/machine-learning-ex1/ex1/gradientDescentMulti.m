@@ -19,7 +19,17 @@ for iter = 1:num_iters
 
 
 
+      temp_theta = zeros(size(theta));
 
+      for j=1:length(theta),
+        sum_val = 0;
+        for i=1:length(X),
+          sum_val += (X(i,:)*theta - y(i))*X(i,j);
+        endfor
+        temp_theta(j) = theta(j) - alpha*sum_val/m;
+      endfor
+      
+      theta = temp_theta;
 
 
 
