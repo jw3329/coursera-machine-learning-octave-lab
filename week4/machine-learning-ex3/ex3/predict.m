@@ -23,7 +23,7 @@ p = zeros(size(X, 1), 1);
 
 hidden_layer = sigmoid(Theta1*[ones(m,1) X]');
 
-[_,p] = max(sigmoid(Theta2*[ones(size(hidden_layer,2),1), hidden_layer']')',[],2);
+  [_,p] = max(sigmoid(Theta2*[ones(size(hidden_layer,2),1), hidden_layer']')',[],2);
 
 % =========================================================================
 
