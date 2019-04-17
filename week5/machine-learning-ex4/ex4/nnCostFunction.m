@@ -84,8 +84,19 @@ endfor
 
 d_2 = (Theta2'*d_3)(2:end,:).*sigmoidGradient(z_2);
 
-Theta1_grad = (Theta1_grad + d_2*a_1) / m;
-Theta2_grad = (Theta2_grad + d_3*a_2) / m;
+Theta1_grad = (Theta1_grad + d_2*a_1);
+Theta2_grad = (Theta2_grad + d_3*a_2);
+
+for j = 2:size(Theta1_grad,2),
+  Theta1_grad(:,j) += lambda * Theta1(:,j);
+endfor
+
+for j = 2:size(Theta2_grad,2),
+  Theta2_grad(:,j) += lambda * Theta2(:,j);
+endfor
+
+Theta1_grad /= m;
+Theta2_grad /= m;
 
 for i = 1:m,
   for k = 1:num_labels,
@@ -95,6 +106,7 @@ for i = 1:m,
 endfor
 
 Thetas = {Theta1, Theta2};
+
 for theta_index = 1:length(Thetas),
   theta = Thetas{theta_index};
   for j = 1:size(theta,1),
