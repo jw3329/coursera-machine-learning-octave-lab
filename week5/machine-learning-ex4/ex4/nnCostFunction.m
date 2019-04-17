@@ -68,9 +68,24 @@ for i = 1:length(y),
   reformed_y(y(i),i) = 1;
 endfor
 
-a_2 = sigmoid(Theta1*[ones(length(X),1), X]');
+a_1 =[ones(length(X),1), X];
+% get z series, and make the sigmoid function of z to get the actual outcome of its layers
+z_2 = Theta1*a_1';
+a_2 = sigmoid(z_2);
+a_2 = [ones(length(a_2),1),a_2'];
+z_3 = Theta2*a_2';
+a_3 = sigmoid(z_3);
 
-a_3 = sigmoid(Theta2*[ones(length(a_2),1),a_2']');
+d_3 = zeros(size(a_3));
+
+for k = 1:size(a_3,1),
+  d_3(k,:) = a_3(k,:) - reformed_y(k,:);
+endfor
+
+d_2 = (Theta2'*d_3)(2:end,:).*sigmoidGradient(z_2);
+
+Theta1_grad = (Theta1_grad + d_2*a_1) / m;
+Theta2_grad = (Theta2_grad + d_3*a_2) / m;
 
 for i = 1:m,
   for k = 1:num_labels,
