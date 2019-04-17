@@ -62,21 +62,26 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+reformed_y = zeros(num_labels,length(y));
 
+for i = 1:length(y),
+  reformed_y(y(i),i) = 1;
+endfor
 
+a_2 = sigmoid(Theta1*[ones(length(X),1), X]');
 
+a_3 = sigmoid(Theta2*[ones(length(a_2),1),a_2']');
 
+for i = 1:m,
+  for k = 1:num_labels,
+    J += (-reformed_y(k,i) * log(a_3(k,i)) - (1 - reformed_y(k,i)) *
+      log(1 - a_3(k,i)));
+  endfor
+endfor
 
+J /= m;
 
-
-
-
-
-
-
-
-
-
+J
 
 
 
