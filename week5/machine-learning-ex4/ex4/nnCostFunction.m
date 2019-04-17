@@ -79,9 +79,17 @@ for i = 1:m,
   endfor
 endfor
 
-J /= m;
+Thetas = {Theta1, Theta2};
+for theta_index = 1:length(Thetas),
+  theta = Thetas{theta_index};
+  for j = 1:size(theta,1),
+    for k = 2:size(theta,2),
+      J += lambda / 2 * theta(j,k)^2;
+    endfor
+  endfor
+endfor
 
-J
+J /= m;
 
 
 
