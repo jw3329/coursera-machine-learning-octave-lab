@@ -23,11 +23,19 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+trials = [0.01,0.03,0.1,0.3,1,3,10,30];
+min_mean = 999999;
 
-
-
-
-
+for c_trial = 1 : length(trials),
+  for sigma_trial = 1 : length(trials),
+    predictions = svmPredict(svmTrain(X,y,trials(c_trial),@(x1,x2)gaussianKernel(x1,x2,trials(sigma_trial))),Xval);
+    if (min_mean > mean(double(predictions ~= yval))),
+      min_mean = mean(double(predictions ~= yval));
+      C = trials(c_trial);
+      sigma = trials(sigma_trial);
+    endif
+  endfor
+endfor
 
 % =========================================================================
 
